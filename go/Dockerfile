@@ -33,15 +33,20 @@
 # ========================================================
 FROM golang:1.27.1-alpine@sha256:8a5910f31396cd4d89662f56c68b3ae31d374308270a1c3bd96672ee5ed43414 AS builder
 
-WORKDIR /workspace
+#nastaví  working directory na /workspace
+WORKDIR /workspace 
 
 # Mount the 'bindings' context into the container's filesystem
 COPY --from=bindings . /workspace/bindings/
+#zkopíruje ./bindings do /workspace/bindings
 
 # Copy the main Go module (strictly go/)
-COPY . /workspace/go/
+COPY . /workspace/go/ 
+#takže ted mam /workspace/go a /workspace/bindings
 
+#nastavim working dir na /workspace/go
 WORKDIR /workspace/go
+#nainstaluju zavislosti a asi je verifikuju
 RUN go mod download && go mod verify
 
 # ========================================================
@@ -144,10 +149,13 @@ ENTRYPOINT ["/first_package_finder"]
 # Target: OSV API
 # ========================================================
 FROM builder AS api-build
+#zakaze go compileru, kompilovat cčko, řekne go compileru aby se vytvořil exáč, uloží jej do /app/api, main je v ./cmd/api
 RUN CGO_ENABLED=0 go build -o /app/api ./cmd/api/
 
 FROM gcr.io/distroless/static-debian12@sha256:a9fcaedd4c9b59e12dd65d954f0b5044f19b0647a8a3712e77205df9e7b102cd AS api
+#nakopiruje exač
 COPY --from=api-build /app/api /
+#spustí exáč 
 ENTRYPOINT ["/api"]
 
 # ========================================================
