@@ -1,0 +1,32 @@
+name: "osv.dev"
+services:
+  garage:
+    image: dxflrs/garage:v2.4.1
+    container_name: garage
+    restart: unless-stopped
+    ports:
+      - "3900:3900" # S3 API
+      - "3901:3901" # Internal RPC (for clustering)
+      - "3902:3902" # S3 Web Static Hosting
+      - "3903:3903" # Admin API
+    volumes:
+      - ../garage/garage.toml:/etc/garage.toml:ro
+      - ../garage/meta:/var/lib/garage/meta
+      - ../garage/data:/var/lib/garage/data
+    environment:
+      - RUST_LOG=garage=info
+    env_file:
+      - ../garage/.env
+  garage-init:
+    build:
+      context: ../garage
+      dockerfile: Dockerfile
+    depends_on:
+      garage:
+        condition: service_started
+    env_file:
+      - ../garage/.env
+    volumes:
+      - ../garage/init.sh:/init.sh:ro
+      - ../garage/config.json:/app/config.json:ro
+    command: ["/bin/sh", "/init.sh"]

@@ -1,0 +1,20 @@
+[
+  {
+    "created": "2019-08-24T14:15:22Z",
+    "globalAliases": [
+      "hello"
+    ],
+    "id": "string",
+    "localAliases": [
+    ]
+  },
+  {
+    "created": "2019-08-24T14:15:22Z",
+    "globalAliases": [
+      "world"
+    ],
+    "id": "string",
+    "localAliases": [
+    ]
+  }
+]
