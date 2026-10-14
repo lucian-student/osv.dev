@@ -1,0 +1,9 @@
+{
+    "name": "secure-dev-env",
+    "dockerComposeFile": [
+        "./docker-compose-dev.yml"
+    ],
+    "service": "dev",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "vscode"
+}

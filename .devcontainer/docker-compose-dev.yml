@@ -45,3 +45,15 @@ services:
       - ../garage/init.sh:/init.sh:ro
       - ../garage/config.json:/app/config.json:ro
     command: ["/bin/sh", "/init.sh"]
+  dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    user: vscode
+    command: sleep infinity
+    volumes:
+      - ..:/workspace:cached
+    depends_on:
+      - postgres
+      - garage
+      - garage-init
