@@ -20,3 +20,6 @@ go/api-devserver
 go/api
 esp.log
 .venv/
+
+#my ignores
+tmp-gitter
