@@ -105,7 +105,7 @@ func (*Enricher) Enrich(ctx context.Context, vuln *osvschema.Vulnerability, para
 				continue
 			}
 
-			tagToCommit = buildTagCommitMap(tagsResp)
+			tagToCommit = buildTagCommitMap(tagsResp) //i guess map that mapps tag -> commit
 			tagsCache[repoURL] = tagToCommit
 		}
 
