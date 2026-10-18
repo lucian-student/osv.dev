@@ -8,3 +8,4 @@ pnpm = "latest"
 # Go protocol buffer plugins
 "go:google.golang.org/protobuf/cmd/protoc-gen-go" = "latest"
 "go:google.golang.org/grpc/cmd/protoc-gen-go-grpc" = "latest"
+"go:github.com/go-delve/delve/cmd/dlv" = "latest"

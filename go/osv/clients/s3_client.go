@@ -38,11 +38,27 @@ type S3Config struct {
 	Region    string // default: us-east-1
 }
 
+type s3API interface {
+	GetObject(ctx context.Context, params *s3.GetObjectInput, optFns ...func(*s3.Options)) (*s3.GetObjectOutput, error)
+	PutObject(ctx context.Context, params *s3.PutObjectInput, optFns ...func(*s3.Options)) (*s3.PutObjectOutput, error)
+	HeadObject(ctx context.Context, params *s3.HeadObjectInput, optFns ...func(*s3.Options)) (*s3.HeadObjectOutput, error)
+	ListObjectsV2(ctx context.Context, params *s3.ListObjectsV2Input, optFns ...func(*s3.Options)) (*s3.ListObjectsV2Output, error)
+	CreateBucket(ctx context.Context, params *s3.CreateBucketInput, optFns ...func(*s3.Options)) (*s3.CreateBucketOutput, error)
+}
+
 // S3Storage implements CloudStorage interface for S3-compatible backends
 // Works with: Garage, AWS S3, Minio, DigitalOcean Spaces, Wasabi, etc.
 type S3Storage struct {
-	client *s3.Client
+	client s3API
 	bucket string
+}
+
+// Add a constructor that accepts any s3API (real client or test double).
+func NewS3StorageWithClient(client s3API, bucket string) *S3Storage {
+	return &S3Storage{
+		client: client,
+		bucket: bucket,
+	}
 }
 
 // Compile-time check that S3Storage implements CloudStorage

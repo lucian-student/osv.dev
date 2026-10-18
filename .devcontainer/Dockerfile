@@ -8,6 +8,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
        git \
        protobuf-compiler \
        libprotobuf-dev \
+       graphviz \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://dl.k6.io/key.gpg | gpg --dearmor -o /usr/share/keyrings/k6-archive-keyring.gpg && \
@@ -15,6 +16,8 @@ RUN curl -fsSL https://dl.k6.io/key.gpg | gpg --dearmor -o /usr/share/keyrings/k
     apt-get update && \
     apt-get install -y k6 \
     && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /work && chown -R vscode:vscode /work
 
 USER vscode
 RUN curl -fsSL https://mise.run | sh
