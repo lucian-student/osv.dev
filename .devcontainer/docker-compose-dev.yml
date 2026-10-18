@@ -57,3 +57,8 @@ services:
       - postgres
       - garage
       - garage-init
+    ports: 
+      #profiling gitter port
+      - 6060:6060
+      #gitter port
+      - 8888:8888

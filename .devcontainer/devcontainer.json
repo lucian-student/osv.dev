@@ -5,5 +5,13 @@
     ],
     "service": "dev",
     "workspaceFolder": "/workspace",
-    "remoteUser": "vscode"
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.Go"
+            ]
+        }
+    },
+    "postCreateCommand": "mise install"
 }

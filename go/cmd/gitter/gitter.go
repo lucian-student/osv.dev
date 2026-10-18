@@ -371,6 +371,14 @@ func writeResponse(w http.ResponseWriter, req *http.Request, msg proto.Message) 
 }
 
 func main() {
+	//profilin service
+	go func() {
+		logger.Info("Starting pprof debugging server", slog.String("addr", "localhost:6060"))
+		if err := http.ListenAndServe("localhost:6060", nil); err != nil && err != http.ErrServerClosed {
+			logger.Error("pprof server failed", slog.Any("error", err))
+		}
+	}()
+
 	logger.InitGlobalLogger()
 	logger.RegisterContextKey(urlKey, "repoURL")
 	logger.RegisterContextKey(refIDKey, "refID")
