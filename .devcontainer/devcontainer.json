@@ -9,9 +9,16 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "golang.Go"
+                "golang.Go",
+                "ms-python.python"
             ]
         }
     },
-    "postCreateCommand": "mise install"
+    "postCreateCommand": "mise install",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest",
+            "moby": false
+        }
+    }
 }

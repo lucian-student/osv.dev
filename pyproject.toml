@@ -21,7 +21,8 @@ dependencies = [
     "jsonschema>=4.0", 
     "grpcio>=1.0", 
     "packaging-legacy>=23.0.post0",
-    "requests>=2.33", 
+    "requests>=2.33",
+    "locust (>=2.46.7,<3.0.0)", 
 ]
 
 
