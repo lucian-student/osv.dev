@@ -10,7 +10,7 @@ import (
 )
 
 type Vulnerability struct {
-	ID          uint           `gorm:"primaryKey"`
+	ID          string         `gorm:"primaryKey"`
 	SourceID    string         `gorm:"index;not null"`
 	Modified    time.Time      `gorm:"not null"`
 	IsWithdrawn bool           `gorm:"not null;default:false"`
