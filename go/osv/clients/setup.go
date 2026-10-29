@@ -80,7 +80,11 @@ func GetTestGarage(t *testing.T) *S3Storage {
 func TestMain(m *testing.M) {
 	code := m.Run()
 	if garageContainer != nil {
-		_ = garageContainer.Terminate(context.Background())
+		err := garageContainer.Terminate(context.Background())
+		if err != nil {
+			fmt.Printf("Failed to terminate testing garage container!")
+			os.Exit(1)
+		}
 	}
 	os.Exit(code)
 }

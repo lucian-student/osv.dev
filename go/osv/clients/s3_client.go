@@ -38,7 +38,7 @@ type S3Config struct {
 	Region    string // default: us-east-1
 }
 
-type s3API interface {
+type S3API interface {
 	GetObject(ctx context.Context, params *s3.GetObjectInput, optFns ...func(*s3.Options)) (*s3.GetObjectOutput, error)
 	PutObject(ctx context.Context, params *s3.PutObjectInput, optFns ...func(*s3.Options)) (*s3.PutObjectOutput, error)
 	HeadObject(ctx context.Context, params *s3.HeadObjectInput, optFns ...func(*s3.Options)) (*s3.HeadObjectOutput, error)
@@ -49,12 +49,12 @@ type s3API interface {
 // S3Storage implements CloudStorage interface for S3-compatible backends
 // Works with: Garage, AWS S3, Minio, DigitalOcean Spaces, Wasabi, etc.
 type S3Storage struct {
-	client s3API
+	client S3API
 	bucket string
 }
 
 // Add a constructor that accepts any s3API (real client or test double).
-func NewS3StorageWithClient(client s3API, bucket string) *S3Storage {
+func NewS3StorageWithClient(client S3API, bucket string) *S3Storage {
 	return &S3Storage{
 		client: client,
 		bucket: bucket,

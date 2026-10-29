@@ -2,6 +2,8 @@ package postgres
 
 import (
 	"context"
+	"fmt"
+	"os"
 	"sync"
 	"testing"
 
@@ -12,9 +14,10 @@ import (
 )
 
 var (
-	once       sync.Once
-	dbInstance *gorm.DB
-	initErr    error
+	pgContainer *postgres.PostgresContainer
+	once        sync.Once
+	dbInstance  *gorm.DB
+	initErr     error
 )
 
 // GetTestDB spins up the container on the very first test call
@@ -23,17 +26,16 @@ func GetTestDB(t *testing.T) *gorm.DB {
 	t.Helper()
 
 	once.Do(func() {
-		ctx := context.Background()
+		ctx := t.Context()
 
-		pgContainer, err := postgres.Run(ctx,
+		pgContainer, initErr = postgres.Run(ctx,
 			"postgres:16-alpine",
 			postgres.WithDatabase("test_db"),
 			postgres.WithUsername("postgres"),
 			postgres.WithPassword("postgres"),
 			postgres.BasicWaitStrategies(),
 		)
-		if err != nil {
-			initErr = err
+		if initErr != nil {
 			return
 		}
 
@@ -72,4 +74,16 @@ func GetTestDB(t *testing.T) *gorm.DB {
 
 	require.NoError(t, initErr, "failed to initialize test database container")
 	return dbInstance
+}
+
+func TestMain(m *testing.M) {
+	code := m.Run()
+	if pgContainer != nil {
+		err := pgContainer.Terminate(context.Background())
+		if err != nil {
+			fmt.Printf("Failed to terminate testing postgres container!")
+			os.Exit(1)
+		}
+	}
+	os.Exit(code)
 }
