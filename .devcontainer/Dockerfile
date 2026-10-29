@@ -20,6 +20,9 @@ RUN curl -fsSL https://dl.k6.io/key.gpg | gpg --dearmor -o /usr/share/keyrings/k
 RUN mkdir -p /work && chown -R vscode:vscode /work
 
 USER vscode
+
+WORKDIR /workspace
+
 RUN curl -fsSL https://mise.run | sh
 ENV PATH="/home/vscode/.local/bin:${PATH}"
 RUN mise activate >> ~/.bashrc

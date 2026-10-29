@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-ADMIN_API="http://garage:3903/v2"
+ADMIN_API="${GARAGE_URL}/v2"
 HEADER="Authorization: Bearer ${GARAGE_ADMIN_TOKEN}"
 CONFIG_FILE="/app/config.json"
 
